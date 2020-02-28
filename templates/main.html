@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../static/main.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+{#    <script type="text/javascript" src="anima.js"></script>#}
 </head>
 <body>
-<p>bsldkj</p>
-{{ form.keys() }}
-
 {% for img in form.ims %}
-    <img src="data:image/png;base64, {{ img }}"/>
+    <img class="sideright" src="data:image/png;base64, {{ img }}"/>
 {#    {% en = '<p>df</p>' %}#}
 {#    {{ en }}#}
 {% endfor %}

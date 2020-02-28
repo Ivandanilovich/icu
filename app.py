@@ -18,7 +18,7 @@ class StartForm(FlaskForm):
     submit = SubmitField("Submit")
 
 
-@app.route('/')
+# @app.route('/')
 def hello_world():
     return render_template('first_page.html', form=StartForm())
 
@@ -26,14 +26,14 @@ def hello_world():
 if __name__ == '__main__':
     app.run(debug=True)
 
-
-def desk(path, classcount):
+@app.route('/')
+def desk(path='D:/cute', classcount=5):
     res=[]
     for i in os.listdir(path)[:5]:
         with open(os.path.join(path,i), "rb") as image_file:
             base = base64.b64encode(image_file.read())
         res.append(str(repr(base)[2:-1]))
-        print(str(repr(base)[2:-1]))
+        # print(str(repr(base)[2:-1]))
     return render_template('main.html', form={'path': path, 'classcount': classcount, 'ims': res})
 
 
