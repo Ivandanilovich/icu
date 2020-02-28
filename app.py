@@ -32,7 +32,8 @@ def desk(path, classcount):
     for i in os.listdir(path)[:5]:
         with open(os.path.join(path,i), "rb") as image_file:
             base = base64.b64encode(image_file.read())
-        res.append('''<img src="data:image/png;base64, {}" alt="Red dot" />'''.format(str(base)[2:-1]))
+        res.append(str(repr(base)[2:-1]))
+        print(str(repr(base)[2:-1]))
     return render_template('main.html', form={'path': path, 'classcount': classcount, 'ims': res})
 
 
