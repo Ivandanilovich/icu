@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ICU</title>
+</head>
+<body>
+
+<h1>Sign In</h1>
+<form action="main" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.path.label }}<br>
+        {{ form.path(size=32) }}
+    </p>
+    <p>
+        {{ form.class_count.label }}<br>
+        {{ form.class_count(size=32) }}
+    </p>
+    <p>{{ form.isRec() }} {{ form.isRec.label }}</p>
+    <p>{{ form.submit() }}</p>
+</form>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }} </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+</body>
+</html>
+
+
+{#<html>#}
+{#    <head>#}
+{#        {% if title %}#}
+{#        <title>{{ title }} - microblog</title>#}
+{#        {% else %}#}
+{#        <title>microblog</title>#}
+{#        {% endif %}#}
+{#    </head>#}
+{#    <body>#}
+{#        <div>#}
+{#            Microblog:#}
+{#            <a href="/index">Home</a>#}
+{#            <a href="/login">Login</a>#}
+{#        </div>#}
+{#        <hr>#}
+{#        {% with messages = get_flashed_messages() %}#}
+{#        {% if messages %}#}
+{#        <ul>#}
+{#            {% for message in messages %}#}
+{#            <li>{{ message }}</li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#        {% endif %}#}
+{#        {% endwith %}#}
+{#        {% block content %}{% endblock %}#}
+{#    </body>#}
+{#</html>#}
