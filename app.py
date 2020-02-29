@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
 
 @app.route('/')
-def desk(path='D:/cute', classcount=5):
+def desk(path='D:/Abovo/1/images', classcount=5):
     res = []
     for i in os.listdir(path)[:4]:
         with open(os.path.join(path, i), "rb") as image_file:
