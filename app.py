@@ -26,15 +26,17 @@ def hello_world():
 if __name__ == '__main__':
     app.run(debug=True)
 
+
 @app.route('/')
 def desk(path='D:/cute', classcount=5):
-    res=[]
-    for i in os.listdir(path)[:5]:
-        with open(os.path.join(path,i), "rb") as image_file:
+    res = []
+    for i in os.listdir(path)[:4]:
+        with open(os.path.join(path, i), "rb") as image_file:
             base = base64.b64encode(image_file.read())
         res.append(str(repr(base)[2:-1]))
         # print(str(repr(base)[2:-1]))
-    return render_template('main.html', form={'path': path, 'classcount': classcount, 'ims': res})
+    return render_template('main.html',
+                           form={'path': path, 'classcount': classcount, 'ims': [[i, j] for i, j in enumerate(res)]})
 
 
 @app.route('/main', methods=['POST'])

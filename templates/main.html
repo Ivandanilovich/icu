@@ -5,13 +5,18 @@
     <title>Title</title>
     <link rel="stylesheet" href="../static/main.css">
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-{#    <script type="text/javascript" src="anima.js"></script>#}
+    <script type="text/javascript" src="../static/main.js"></script>
 </head>
 <body>
-{% for img in form.ims %}
-    <img class="sideright" src="data:image/png;base64, {{ img }}"/>
+{#{% set n=1 %}#}
+{% for n, img in form.ims[1:] %}
+{#    {% ge n+=1 %}#}
+    <img src="data:image/png;base64, {{ img }}"/>
 {#    {% en = '<p>df</p>' %}#}
 {#    {{ en }}#}
 {% endfor %}
+
+<img class="main" src="data:image/png;base64, {{ form.ims[0][1] }}"/>
+
 </body>
 </html>
