@@ -8,8 +8,14 @@ $(document).ready(function () {
             $(el).toggleClass("main");
             $(el).toggleClass("side");
 
-            var im = $.ajax("getImage")
-            console.log(im)
+            $.ajax({
+                type: "POST",
+                url: "/getImage",
+                data: {name: "John"}
+            }).done(function (msg) {
+                alert("Data Saved: " + msg);
+            });
+
 
         }
     }); //клавиша A

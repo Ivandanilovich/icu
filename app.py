@@ -1,7 +1,7 @@
 import base64
 import os
 
-from flask import Flask, render_template, redirect, flash
+from flask import Flask, render_template, redirect, flash, request
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
 from wtforms import StringField, SubmitField, IntegerField, BooleanField
@@ -30,6 +30,14 @@ class Image(db.Model):
         return '<Image {}>'.format(self.name)
 
 
+class ImageList(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), index=True, unique=True)
+
+    def __repr__(self):
+        return '<Image {}>'.format(self.name)
+
+
 class StartForm(FlaskForm):
     path = StringField("Path: ", validators=[DataRequired()])
     class_count = IntegerField("Count: ", validators=[DataRequired(), NumberRange(1, 10)])
@@ -48,18 +56,26 @@ if __name__ == '__main__':
 
 @app.route('/')
 def desk(path='D:/Abovo/1/images', classcount=5):
+    # for i in Image.query.all():
+    #     db.session.delete(i)
+    # for i in ImageList.query.all():
+    #     db.session.delete(i)
+    # db.session.commit()
+
     res = []
-    for i in Image.query.all():
-        print(i.name)
-    4/0
-    db.session.add(Image(name="imagessdknflasg", class_name='1', alt='mot'))
-    db.session.commit()
-    for i in os.listdir(path)[:4]:
-        with open(os.path.join(path, i), "rb") as image_file:
+    # for i in os.listdir(path):
+    #     db.session.add(ImageList(name=os.path.join(path, i)))
+    #     db.session.commit()
+
+
+    for i in range(1, 6):
+        image_path = ImageList.query.get(i)
+        # print('image_path', image_path)
+        with open(os.path.join(path, image_path.name), "rb") as image_file:
             base = base64.b64encode(image_file.read())
         res.append(str(repr(base)[2:-1]))
     return render_template('main.html',
-                           form={'path': path, 'classcount': classcount, 'ims': [[i, j] for i, j in enumerate(res)]})
+                           form={'path': path, 'classcount': classcount, 'ims': res})
 
 
 @app.route('/main', methods=['POST'])
@@ -72,6 +88,9 @@ def to_main():
     return render_template('first_page.html', form=form)
 
 
-@app.route('/getImage')
+@app.route('/getImage', methods=['POST', 'GET'])
 def getImage():
+    print('req', request.form['name'])
     return 'df'
+
+
