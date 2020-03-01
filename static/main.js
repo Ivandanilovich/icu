@@ -7,6 +7,10 @@ $(document).ready(function () {
             $('body').append(el);
             $(el).toggleClass("main");
             $(el).toggleClass("side");
+
+            var im = $.ajax("getImage")
+            console.log(im)
+
         }
     }); //клавиша A
 
