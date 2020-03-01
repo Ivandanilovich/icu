@@ -1,11 +1,17 @@
 function sendClassName(class_id, alt) {
+
+    $.ajax({
+        type: "POST",
+        url: "/getimage",
+    }).done(function (msg) {
+        msg = msg.split('*');
+        $('.sideWrapper').append('<img class="side" src="data:image/png;base64, '+msg[0]+'" alt="'+msg[1]+'"/>')
+    });
+
     $.ajax({
         type: "POST",
         url: "/writeclass",
         data: {name: $('.main:first').attr('alt'), class_code: class_id, alt: alt}
-    }).done(function (msg) {
-        msg = msg.split('*');
-        $('.sideWrapper').append('<img class="side" src="data:image/png;base64, '+msg[0]+'" alt="'+msg[1]+'"/>')
     });
 }
 

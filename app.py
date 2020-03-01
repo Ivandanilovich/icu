@@ -106,16 +106,17 @@ def writeclass():
     name = request.form['name']
     class_code = request.form['class_code']
     alt_info = request.form['alt']
+    db.session.add(Image(name=name, class_name=class_code, alt=alt_info))
+    db.session.commit()
+    return ""
 
+
+@app.route('/getimage', methods=['POST', 'GET'])
+def getimage():
     n = Counter.query.all()[0].value
-
     for i in Counter.query.all():
         db.session.delete(i)
-
-    db.session.add(Image(name=name, class_name=class_code, alt=alt_info))
-
-    n+=1
-
+    n += 1
     db.session.add(Counter(value=n))
     db.session.commit()
 
@@ -123,6 +124,5 @@ def writeclass():
 
     with open(im_name, "rb") as image_file:
         base = base64.b64encode(image_file.read())
-    # res.append()
 
     return "{}*{}".format(str(repr(base)[2:-1]), im_name)
