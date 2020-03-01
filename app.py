@@ -38,6 +38,14 @@ class ImageList(db.Model):
         return '<Image {}>'.format(self.name)
 
 
+class Counter(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.Integer(), index=True)
+
+    def __repr__(self):
+        return '<Image {}>'.format(self.value)
+
+
 class StartForm(FlaskForm):
     path = StringField("Path: ", validators=[DataRequired()])
     class_count = IntegerField("Count: ", validators=[DataRequired(), NumberRange(1, 10)])
@@ -56,24 +64,29 @@ if __name__ == '__main__':
 
 @app.route('/')
 def desk(path='D:/Abovo/1/images', classcount=5):
-    # for i in Image.query.all():
-    #     db.session.delete(i)
+    for i in Image.query.all():
+        db.session.delete(i)
     # for i in ImageList.query.all():
     #     db.session.delete(i)
-    # db.session.commit()
+    db.session.commit()
 
     res = []
     # for i in os.listdir(path):
     #     db.session.add(ImageList(name=os.path.join(path, i)))
     #     db.session.commit()
 
-
-    for i in range(1, 6):
+    for i in range(1, 16):
         image_path = ImageList.query.get(i)
         # print('image_path', image_path)
         with open(os.path.join(path, image_path.name), "rb") as image_file:
             base = base64.b64encode(image_file.read())
-        res.append(str(repr(base)[2:-1]))
+        res.append([str(repr(base)[2:-1]), image_path])
+
+    for i in Counter.query.all():
+        db.session.delete(i)
+    db.session.add(Counter(value=15))
+    db.session.commit()
+
     return render_template('main.html',
                            form={'path': path, 'classcount': classcount, 'ims': res})
 
@@ -88,9 +101,28 @@ def to_main():
     return render_template('first_page.html', form=form)
 
 
-@app.route('/getImage', methods=['POST', 'GET'])
-def getImage():
-    print('req', request.form['name'])
-    return 'df'
+@app.route('/writeclass', methods=['POST', 'GET'])
+def writeclass():
+    name = request.form['name']
+    class_code = request.form['class_code']
+    alt_info = request.form['alt']
 
+    n = Counter.query.all()[0].value
 
+    for i in Counter.query.all():
+        db.session.delete(i)
+
+    db.session.add(Image(name=name, class_name=class_code, alt=alt_info))
+
+    n+=1
+
+    db.session.add(Counter(value=n))
+    db.session.commit()
+
+    im_name = ImageList.query.get(n).name
+
+    with open(im_name, "rb") as image_file:
+        base = base64.b64encode(image_file.read())
+    # res.append()
+
+    return "{}*{}".format(str(repr(base)[2:-1]), im_name)

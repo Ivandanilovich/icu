@@ -9,12 +9,12 @@
 </head>
 <body>
 <div class="sideWrapper">
-    {% for img in form.ims[1:] %}
-        <img class="side" src="data:image/png;base64, {{ img }}"/>
+    {% for img, im_name in form.ims[1:] %}
+        <img class="side" src="data:image/png;base64, {{ img }}" alt="{{ im_name }}"/>
     {% endfor %}
 </div>
 
-<img class="main" src="data:image/png;base64, {{ form.ims[0] }}"/>
+<img class="main" src="data:image/png;base64, {{ form.ims[0][0] }}" alt="{{ form.ims[0][1] }}"/>
 
 </body>
 </html>
