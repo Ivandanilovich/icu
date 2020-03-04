@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ICU</title>
+    <link rel="stylesheet" href="../static/main.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/class_script.js"></script>
+</head>
+<body>
+
+<h1>Sign In</h1>
+<form action="writeclassesinfo" method="post">
+    {#    {{ form.hidden_tag() }}#}
+
+    {% for message in range(form.class_count) %}
+        <div>>
+            <div class="key" id="key{{ message }}"></div>
+            <label>
+                <input class="input{{ message }}" type="text" name="string_key-">
+            </label>
+        </div>
+
+    {% endfor %}
+    <input type="submit">
+</form>
+</body>
+</html>
+

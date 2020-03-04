@@ -54,26 +54,26 @@ class StartForm(FlaskForm):
 
 
 # @app.route('/')
-def hello_world():
-    return render_template('first_page.html', form=StartForm())
+# def hello_world():
+#     return render_template('first_page.html', form=StartForm())
 
 
 if __name__ == '__main__':
     app.run(debug=True)
 
 
-@app.route('/')
-def desk(path='D:/Abovo/1/images', classcount=5):
+@app.route('/main')
+def desk(path='D:/Abovo/dataset 1.3.2020 vis/7/', classcount=5):
     for i in Image.query.all():
         db.session.delete(i)
-    # for i in ImageList.query.all():
-    #     db.session.delete(i)
+    for i in ImageList.query.all():
+        db.session.delete(i)
     db.session.commit()
 
     res = []
-    # for i in os.listdir(path):
-    #     db.session.add(ImageList(name=os.path.join(path, i)))
-    #     db.session.commit()
+    for i in os.listdir(path):
+        db.session.add(ImageList(name=os.path.join(path, i)))
+        db.session.commit()
 
     for i in range(1, 16):
         image_path = ImageList.query.get(i)
@@ -91,13 +91,15 @@ def desk(path='D:/Abovo/1/images', classcount=5):
                            form={'path': path, 'classcount': classcount, 'ims': res})
 
 
-@app.route('/main', methods=['POST'])
+@app.route('/', methods=['POST', 'GET'])
+@app.route('/main', methods=['POST', 'GET'])
 def to_main():
     print('here')
     form = StartForm()
     if form.validate_on_submit():
-        flash('Login requested for OpenID="' + form.path.data + '", remember_me=' + str(form.class_count.data))
-        return desk(path=form.path.data, classcount=form.class_count.data)
+        # flash('Login requested for OpenID="' + form.path.data + '", remember_me=' + str(form.class_count.data))
+        # return desk(path=form.path.data, classcount=form.class_count.data)
+        return render_template('classPage.html', form={'class_count': form.class_count.data})
     return render_template('first_page.html', form=form)
 
 
@@ -126,3 +128,11 @@ def getimage():
         base = base64.b64encode(image_file.read())
 
     return "{}*{}".format(str(repr(base)[2:-1]), im_name)
+
+
+@app.route('/writeclassesinfo', methods=['POST', 'GET'])
+def writeclassesinfo():
+    print('here')
+    for i in request.form:
+        print(i, request.form[i])
+    return "dkfj"
